@@ -17,9 +17,11 @@ window.onload = function () {
             game.canvas = document.getElementById("gameCanvas");
             game.ctx = game.canvas.getContext("2d");
             
-            //set canvas size
-            game.canvas.width = game.WIDTH;
-            game.canvas.height = game.HEIGHT;
+            //resize canvas when window resizes
+            window.addEventListener('resize', function (event) {
+                game.resizeCanvas();
+            });
+            game.resizeCanvas();
             
             //sets the opponent as the computer by default (can be changed by player)
             game.screen_game.opponent = game.screen_game.computer;
@@ -46,6 +48,37 @@ window.onload = function () {
                 this.pong = new Audio("pong.wav");
                 this.bleep = new Audio("bleep.wav")
             },
+        },
+
+        resizeCanvas: function () {
+            // Set size according to game's WIDTH and HEIGHT
+            game.canvas.width = game.WIDTH;
+            game.canvas.height = game.HEIGHT;
+
+            var aspect = game.WIDTH / game.HEIGHT;
+            var window_aspect = window.innerWidth / window.innerHeight;
+            var canvas_scale = 1.0;
+
+            //canvas is wider than window
+            if (aspect > window_aspect) {
+                canvas_scale = window.innerWidth / game.WIDTH;
+            //canvas is taller than the window
+            } else {
+                canvas_scale = window.innerHeight / game.HEIGHT;
+            }
+
+            // Apply canvas element scale
+            var canvas_element = document.getElementById("gameCanvas");
+            var width = game.WIDTH * canvas_scale;
+            var height = game.HEIGHT * canvas_scale;
+            canvas_element.style.width = width;
+            canvas_element.style.height = height;
+            canvas_element.width = width;
+            canvas_element.height = height;
+
+            // Apply context scale
+            game.ctx.scale(canvas_scale, canvas_scale);
+            
         },
         
         'reboot': function() {
