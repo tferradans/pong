@@ -49,36 +49,37 @@ window.onload = function () {
                 this.bleep = new Audio("bleep.wav")
             },
         },
+        
 
         resizeCanvas: function () {
-            // Set size according to game's WIDTH and HEIGHT
-            game.canvas.width = game.WIDTH;
-            game.canvas.height = game.HEIGHT;
-
-            var aspect = game.WIDTH / game.HEIGHT;
-            var window_aspect = window.innerWidth / window.innerHeight;
-            var canvas_scale = 1.0;
-
-            //canvas is wider than window
-            if (aspect > window_aspect) {
-                canvas_scale = window.innerWidth / game.WIDTH;
-            //canvas is taller than the window
-            } else {
-                canvas_scale = window.innerHeight / game.HEIGHT;
-            }
-
-            // Apply canvas element scale
-            var canvas_element = document.getElementById("gameCanvas");
-            var width = game.WIDTH * canvas_scale;
-            var height = game.HEIGHT * canvas_scale;
-            canvas_element.style.width = width;
-            canvas_element.style.height = height;
-            canvas_element.width = width;
-            canvas_element.height = height;
-
-            // Apply context scale
-            game.ctx.scale(canvas_scale, canvas_scale);
-            
+        // Set size according to game's WIDTH and HEIGHT
+        game.canvas.width = game.WIDTH;
+        game.canvas.height = game.HEIGHT;
+        
+        var aspect = game.WIDTH / game.HEIGHT;
+        var window_aspect = window.innerWidth / window.innerHeight;
+        var canvas_scale = 1.0;
+        
+        //canvas is wider than window
+        if (aspect > window_aspect) {
+            canvas_scale = window.innerWidth / game.WIDTH;
+        //canvas is taller than the window
+        } else {
+            canvas_scale = window.innerHeight / game.HEIGHT;
+        }
+        
+        // Apply canvas element scale
+        var canvas_element = document.getElementById("gameCanvas");
+        var width = game.WIDTH * canvas_scale;
+        var height = game.HEIGHT * canvas_scale;
+        canvas_element.style.width = width;
+        canvas_element.style.height = height;
+        canvas_element.width = width;
+        canvas_element.height = height;
+        
+        // Apply context scale
+        game.ctx.scale(canvas_scale, canvas_scale);
+        
         },
         
         'reboot': function() {
@@ -158,10 +159,12 @@ window.onload = function () {
                     }
                     //up arrow press
                     else if (event.keyCode == 38) {
+                        event.preventDefault();
                         game.keyboard.up = true;
                     }
                     //down arrow press
                     else if (event.keyCode == 40) {
+                        event.preventDefault();
                         game.keyboard.down = true;
                     }
                     
@@ -174,6 +177,8 @@ window.onload = function () {
                     if (event.keyCode == 82) {
                         game.reboot();
                     }
+                    
+                    event.stopPropagation();
                     
                 });
                 
@@ -190,10 +195,12 @@ window.onload = function () {
                     
                     //up arrow release
                     if (event.keyCode == 38) {
+                        event.preventDefault();
                         game.keyboard.up = false;
                     }
                     //down arrow release
                     else if (event.keyCode == 40) {
+                        event.preventDefault();
                         game.keyboard.down = false;
                     }
                 });
@@ -231,8 +238,6 @@ window.onload = function () {
                     }
                     else {
                         this.insert_coin = true;
-                        //play sound
-                        game.audioplayer.bleep.play();
                     }
                     //reset count
                     this.ms = 0;
@@ -1165,8 +1170,6 @@ window.onload = function () {
                     }
                     else {
                         this.restart = true;
-                        //play sound
-                        game.audioplayer.bleep.play();
                     }
                     //reset count
                     this.ms = 0;
